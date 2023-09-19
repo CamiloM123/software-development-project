@@ -5,14 +5,19 @@ const Service = require('../models/service');
 //POST
 const createNewService = async (req, res) => {
     const { name, description, category } = req.body;
-    const { filename } = req.file;
+    const {path}= req.file;
     const newService = new Service({
         name,
         description,
         category,
         active: true,
     });
-    newService.photos.push(filename);
+    console.log(path);
+    const newPath = path.replace(/\\/g, "/");
+
+    console.log(newPath);
+    newService.photos.push(newPath);
+
     const savedService = await newService.save();
     console.log(req.file);
     res.status(200).json(savedService);

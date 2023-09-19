@@ -4,6 +4,7 @@ const router = express.Router();
 const ensureAuth  = require('../middlewares/authenticated');
 const serviceController = require('../controllers/service');
 
+//Para manejo de imagenes
 const multer = require('multer');
 
 const { v4: uuidv4 } = require('uuid');
@@ -16,7 +17,6 @@ const storage = multer.diskStorage({
     }   
 });
 
-//Para manejo de imagenes
 // const storage = multer.diskStorage({
 //     destination(req, file, cb) {
 //         cb(null, 'uploads/service');
@@ -31,7 +31,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({
     storage,
-    dest : 'uploads/service'
 }).single('photos');
 
 router.post("/new-service", upload, serviceController.createNewService);   

@@ -1,5 +1,3 @@
-const { model } = require("mongoose");
-
 DB_HOST = "cluster0.smzqsb3.mongodb.net";
 
 DB_PASSWORD = "camilo21"
