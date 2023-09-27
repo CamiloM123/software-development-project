@@ -2,6 +2,7 @@
 const bodyParser = require("body-parser")
 const express = require("express")
 const multer = require("multer")
+const cors = require('cors');
 
 const addressRoutes = require("./controllers/address")
 const userRoutes = require("./routes/users")
@@ -15,6 +16,10 @@ const {API_VERSION} = require("./config")
 
 //Inicialización de la aplicación
 const app = express();
+
+// Middleware
+
+app.use(cors()); // Para que se pueda acceder a la API desde cualquier frontend
 
 // Para la visualizacion del contenido del endpoint
 app.use(bodyParser.urlencoded({extended: false}));
