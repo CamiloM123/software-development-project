@@ -6,22 +6,24 @@ const jwt = require("../utils/jwt");
 
 //POST
 const register = async (req, res) => {
-  const { name, lastmane, email, password, address } = req.body;
+  const { name, lastname, email, password } = req.body;
   
-  if ( email != null && address != null) {
-      console.log("Contraseña:", password); //Contraseña sin encriptar
+  if ( email != null ) {
+      // console.log("Contraseña:", password); //Contraseña sin encriptar
   
       const crypt_password = await bcrypt.genSalt(10);
       const final_password = await bcrypt.hash(password, crypt_password);
   
-      console.log("Contraseña encriptada:", final_password); //Contraseña encriptada
-  
+      // console.log("Contraseña encriptada:", final_password); //Contraseña encriptada
+
+      console.log("Lastname:", lastname);
+
       const new_user = await User({
           name,
-          lastmane,
+          lastname,
           email: email.toLowerCase(),
           password: final_password,
-          address,
+          // address,
           active: true,
           rol: "guess"
       });
@@ -41,7 +43,7 @@ const login = async (req, res) => {
   try {
     if (!email || !password) {
       throw new Error("El email y la contraseña son obligatorios");
-      console.log("no recibe datos");
+      
     }
     const emailLowerCase = email.toLowerCase();
     const userStore = await User.findOne({ email: emailLowerCase }).exec();
