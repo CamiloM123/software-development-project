@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const addressSchema = mongoose.Schema({
-    country: { type: String },
+    country: { type: String},
     department: { type: String },
     state: { type: String},
     nomclature: { type: String},

@@ -9,7 +9,7 @@ IP_SERVER = "localhost"
 API_VERSION = "v1"
 JWT_SECRET_KEY = "secret_key"
 
-PORT = 3000;
+PORT = 3500;
 
 module.exports = {
     DB_HOST,
