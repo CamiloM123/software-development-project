@@ -21,14 +21,9 @@ const register = async (req, res) => {
   const { name, lastname, email, password } = req.body;
   
   if ( email != null ) {
-      // console.log("Contraseña:", password); //Contraseña sin encriptar
-  
+
       const crypt_password = await bcrypt.genSalt(10);
       const final_password = await bcrypt.hash(password, crypt_password);
-  
-      // console.log("Contraseña encriptada:", final_password); //Contraseña encriptada
-
-      console.log("Lastname:", lastname);
 
       const new_user = await User({
           name,
@@ -36,7 +31,6 @@ const register = async (req, res) => {
           email: email.toLowerCase(),
           password: final_password,
           // address,
-          active: true,
           rol: "guess"
       });
       console.log("Usuario creado:" + new_user);
@@ -73,7 +67,7 @@ const login = async (req, res) => {
       access: jwt.createAccessToken(userStore),
     });
   } catch (error) {
-    res.status(400).send({ msg: error.message });
+    res.status(403).send({ msg: error.message });
     console.log();
   }
 }; 
@@ -103,36 +97,26 @@ const getAllUsers = async (req, res) => {
 //PUT
 const updateUser = async (req, res) => {
     try {
-        const updatedUser = await User.updateOne(
-          { _id: req.params.userId },
-          { $set: { ...req.body } }
-        );
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: req.params.userId },
+        { $set: { ...req.body } },
+        { new: true } // Esta opción devuelve el documento actualizado
+      );
+      if (updatedUser) {
         res.status(200).json(updatedUser);
-      } catch (err) {
-        res.status(400).json(err);
+      } else {
+        res.status(404).json({ message: 'Usuario no encontrado' });
       }
+    } catch (err) {
+      res.status(400).json(err);
+    }
 };
-
-// router.patch("/:userId", async (req, res) => {
-//     try{
-//       const {userId} = req.params.userId;
-//       const {name, lastname, email, password, address, active, rol} = req.body;
-//       const crypt_password = await bcrypt.genSalt(10);
-//       const final_password = await bcrypt.hash(password, crypt_password);
-//       const updatedUser = await User.updateOne(
-//         {_id: userId}, 
-//         {$set: {name, lastname, email, password: final_password, address, active, rol}});
-//       res.status(200).json(updatedUser);
-//     } catch (err) {
-//       console.log(err);
-//       res.status(400).json(err);
-//     }
-// });
 
 //DELETE
 const deleteUser = async (req, res) => {
     try {
         const removedUser = await User.deleteOne({ _id: req.params.userId });
+        console.log(removedUser);
         res.status(200).json(removedUser);
       } catch (err) {
         res.status(400).json(err);

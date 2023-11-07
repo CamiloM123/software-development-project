@@ -30,12 +30,9 @@ const createRefreshToken = (user) => {
 const verifyToken = (token) => {
   return jwt.verify(token, JWT_SECRET_KEY);
 };
+
 module.exports = {
   createAccessToken,
   createRefreshToken,
   verifyToken,
 };
-
-module.exports = {
-    createAccessToken,
-}

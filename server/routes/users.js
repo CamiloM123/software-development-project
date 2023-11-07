@@ -9,7 +9,7 @@ router.get("/" , userController.getAllUsers );
 router.get("/:userId" , userController.getUserById );
 
 router.get("get-me" , [md_auth.ensureAuth] , userController.getMe );
-router.patch("/:userId" , [md_auth.ensureAuth] , userController.updateUser );
-router.delete("/:userId" ,[md_auth.ensureAuth] , userController.deleteUser );
+router.patch("/:userId" , userController.updateUser );
+router.delete("/:userId", userController.deleteUser );
 
 module.exports = router;

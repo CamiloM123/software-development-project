@@ -1,6 +1,7 @@
 const jwt = require("../utils/jwt");
 const User = require("../models/user");
 const { JWT_SECRET_KEY } = require("../utils/jwt");
+// const jsonwebtoken = require("jsonwebtoken");
 
 
 const ensureAuth = async (req, res, next) => {
@@ -11,7 +12,7 @@ const ensureAuth = async (req, res, next) => {
   const token = authorization.split(" ")[1];
   try {
     // Cambiar "decoded" a "verify" para validar el token
-    const payload = jwt.verify(token, JWT_SECRET_KEY);  
+    const payload = jwt.verifyToken(token, JWT_SECRET_KEY);  
     const { expiration_date, user_id } = payload;
     const currentTime = Date.now();
 
@@ -28,7 +29,7 @@ const ensureAuth = async (req, res, next) => {
     
     next();
   } catch (error) {
-    return res.status(400).send({ msg: "Token inválido" });
+    return res.status(400).send({ msg: "El token no es válido" });
   }
 };
 
